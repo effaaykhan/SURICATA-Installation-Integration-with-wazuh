@@ -36,7 +36,7 @@ sudo apt install suricata -y
    ```
  ## ➡️Restart the Suricata Service
  ```bash
-    Restart the Suricata Service
+    systemctl restart suricata
 ```
 
  ## ➡️Add the following configuration to the /var/ossec/etc/ossec.conf file of the wazuh manager (if suricata is installed on agent then configure agent file). This allows wazuh manager/agent to read the Suricata logs file:
@@ -50,8 +50,8 @@ sudo apt install suricata -y
     </ossec_config>
  ```
  ## ➡️Restart the Wazuh manager/agent to apply the changes
-    ```bash
-      	sudo systemctl restart wazuh-manager
-    ```
+   ```bash
+    systemctl restart wazuh-manager
+  ```
 
   ### 	Wazuh automatically parses data from /var/log/suricata/eve.json & generates related alerts on the Wazuh dashboard.
