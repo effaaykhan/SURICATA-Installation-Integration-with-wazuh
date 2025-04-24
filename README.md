@@ -1,6 +1,7 @@
 # SURICATA-Installation-Integration-with-wazuh
 This repository contains the installation and integration guide for suricata with wazuh
 
+# FOR UBUNTU
 ### ➡️ Install Suricata on Ubuntu 
   ```bash
 sudo add-apt-repository ppa:oisf/suricata-stable
@@ -55,3 +56,55 @@ sudo apt install suricata -y
   ```
 
  -	Wazuh automatically parses data from /var/log/suricata/eve.json & generates related alerts on the Wazuh dashboard.
+
+
+# FOR WINDOWS
+### ➡️ Install Suricata on Windows
+- Download and Install ```npcap``` on windows:
+  ```
+  https://npcap.com/dist/npcap-1.82.exe
+  ```
+- Download and Install the latest Suricata Installer (current is 7.0.10)
+  ```
+  https://www.openinfosecfoundation.org/download/windows/Suricata-7.0.10-1-64bit.msi
+  ```
+- Run the installer and goto ```C:\Program Files\Suricata``` directory
+  ```
+  cd C:\Program Files\Suricata
+  ```
+- Now open the ```suricata.yaml``` file
+  ```
+  notepad suricata.yaml
+  ```
+- Modify the following fields in the configuration file:
+  ```
+  HOME_NET: "<Windows-IP>"
+  EXTERNAL_NET: "any"
+  default-log-dir: C:\\Suricata\\log
+  stats:
+  enabled: no
+  default-rule-path: C:\\Suricata\\rules\\
+  ```
+- Rules are not downloaded by default, So you need to download and extract the rules .zip file:
+  ```
+  curl https://rules.emergingthreats.net/open/suricata-9.0/emerging.rules.zip
+  Expand-Archive emerging.rules.zip
+  ```
+- Move the rules to C:\Program Files\Suricata\rules
+
+### Configuring the Wazuh-Agent
+- Open the ossec.conf in C:\Program Files (x86)\ossec-agent\ossec.conf
+  ```
+  notepad C:\Program Files (x86)\ossec-agent\ossec.conf
+  ```
+- Add the following snippet to the ossec.conf to forward suricata logs to the wazuh-manager
+  ```
+  <localfile>
+     <log_format>json</log_format>
+     <location>C:\Program Files\Suricata\log\eve.json</location>
+  </localfile>
+
+- Restart Wazuh-Agent
+  ```
+  Restart-Service -Name WazuhSvc
+  ```
