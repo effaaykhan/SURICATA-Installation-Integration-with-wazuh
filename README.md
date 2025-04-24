@@ -91,6 +91,18 @@ sudo apt install suricata -y
   Expand-Archive emerging.rules.zip
   ```
 - Move the rules to C:\Program Files\Suricata\rules
+- By default Suricata runs as a service on Windows, if this does not happen, you can open a terminal and execute the following commands:
+  ```
+  .\suricata -c suricata.yaml -i <DEVICE-IP> -l ./log -knone -vvv --service-install
+  NET START suricata
+  ```
+- To start Suricata we must execute the following commands:
+  ```
+  cd C:\Program Files\Suricata
+  ```
+  ```
+  .\suricata.exe -c suricata.yaml -i <Device-IP>
+  ```
 
 ### Configuring the Wazuh-Agent
 - Open the ossec.conf in C:\Program Files (x86)\ossec-agent\ossec.conf
